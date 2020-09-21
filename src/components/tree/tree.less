@@ -1,0 +1,70 @@
+.my-tree {
+    margin-left: 100px;
+    padding-left: 10px;
+    text-align: start;
+    width: 280px;
+    background-color: #000;
+    color: #fff;
+    .tree-list:not(:last-child) {
+        position: relative;
+        &::before {
+            content: ' ';
+            position: absolute;
+            top: 0px;
+            left: -24px;
+            height: 100%;
+            border: none;
+            border-left: 1px dashed #fff;
+        }
+    }
+    .tree-list:last-child {
+        position: relative;
+        &::before {
+            content: ' ';
+            position: absolute;
+            top: 0px;
+            left: -24px;
+            height: 20px;
+            border: none;
+            border-left: 1px dashed #fff;
+        }
+    }
+    .tree-list::after {
+        content: ' ';
+        position: absolute;
+        top: 18px;
+        left: -23px;
+        width: 20px;
+        height: 1px;
+        border: none;
+        border-bottom: 1px dashed #fff;
+    }
+    .tree-level-1::before, .tree-level-1::after {
+        height: 0!important;
+        border: none!important;
+    }
+    .tree-label {
+        position: relative;
+        height: 30px;
+        line-height: 30px;
+        cursor:pointer;
+        .text {
+            display: inline-block;
+            margin-left: 10px;
+        }
+        &:hover {
+           background-color: #666;
+           .icon-add {
+               display: inline-block;
+           }
+        }
+        .icon-add {
+            padding-left: 10px;
+            display: none;
+            cursor: progress;
+        }
+    }
+}
+.child-item {
+    padding-left: 30px;
+}

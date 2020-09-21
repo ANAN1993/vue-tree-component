@@ -30,3 +30,8 @@
   }
 }
 </style>
+<style>
+.icon-loading {
+  animation: rotating 1s linear infinite;
+}
+</style>

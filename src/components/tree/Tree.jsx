@@ -14,6 +14,9 @@ export default {
     defaultExpandAll: {
       type: Boolean,
       default: false
+    },
+    load: {
+      type: Function
     }
   },
   watch: {
@@ -32,9 +35,22 @@ export default {
   methods: {
     expendHandle(e, item) {
       e.stopPropagation()
-      item.isShow = !item.isShow
-      item.iconName = item.isShow ? 'filer_open' : 'filer_close'
-      this.$emit('handleClick', item)
+      if (item.isShow || (item.children && item.children.length > 0)) {
+        item.isShow = !item.isShow
+        item.iconName = item.isShow ? 'filer_open' : 'filer_close'
+        this.$emit('handleClick', item)
+        return
+      }
+      if (this.load && (!item.children || item.children.length === 0)) {
+        item.loading = true
+        this.load(item, (children) => {
+          item.children = children
+          item.loading = false
+          item.isShow = !item.isShow
+          item.iconName = item.isShow ? 'filer_open' : 'filer_close'
+          this.$emit('handleClick', item)
+        })
+      }
     },
     addItem(e, item) {
       e.stopPropagation()
@@ -52,7 +68,7 @@ export default {
       return treeList.map((item, index) =>
         <div class={ ['tree-list', `tree-level-${item.level}`] } onClick={(e) => this.expendHandle(e, item)}>
           <div class="tree-label">
-            <icon name={item.iconName} w={18} h={18}></icon>
+            { item.loading ? <icon name="loading" w={18} h={18}></icon> : <icon name={item.iconName} w={18} h={18}></icon> }
             <span class="text">{item.label}</span>
             { item.level < 4 ? <span onClick={(e) => this.addItem(e, item)}><icon class="icon-add" name="add" w={15} h={15}></icon></span> : null}
           </div>

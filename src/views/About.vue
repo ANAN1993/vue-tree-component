@@ -1,7 +1,8 @@
 <template>
   <div class="about">
     <!-- <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree> -->
-    <my-tree :items="data" default-expand-all @handleClick="callBack" @addItem="addItem"/>
+    <my-tree :items="data" @handleClick="callBack" @addItem="addItem" :load="load" lazy/>
+     <icon name="loading" :w='40' :h='40'></icon>
   </div>
 
 </template>
@@ -86,7 +87,8 @@ export default {
       ],
       defaultProps: {
         children: 'children',
-        label: 'label'
+        label: 'label',
+        isLoading: false
       }
     }
   },
@@ -100,6 +102,18 @@ export default {
     addItem(fn) {
       const item = { label: 'addItem', children: [] }
       fn(item)
+    },
+    load(data, callback) {
+      const { level } = data
+      setTimeout(() => {
+        const childList = [
+          { label: 'aaaa', level: level + 1, iconName: 'filer_close', isShow: false, loading: false },
+          { label: 'bbbbb', level: level + 1, iconName: 'filer_close', isShow: false, loading: false },
+          { label: 'cccc', level: level + 1, iconName: 'filer_close', isShow: false, loading: false },
+          { label: 'dddddd', level: level + 1, iconName: 'filer_close', isShow: false, loading: false }
+        ]
+        callback(childList)
+      }, 1000)
     }
   },
   mounted() {
